@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Credit Card Fraud Detection — Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#f4f6fa; font-family:"Segoe UI",system-ui,sans-serif; color:#1a2233; padding:24px; }
+  h1 { font-size:20px; margin-bottom:4px; }
+  .sub { color:#5b6b85; font-size:13px; margin-bottom:20px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-bottom:22px; }
+  .card { background:#fff; border:1px solid #e3e8f0; border-radius:10px; padding:14px; }
+  .card .l { font-size:10.5px; letter-spacing:1px; color:#8a97ad; text-transform:uppercase; font-weight:700; }
+  .card .v { font-size:19px; font-weight:800; margin-top:5px; }
+  .panel { background:#fff; border:1px solid #e3e8f0; border-radius:12px; padding:18px; margin-bottom:20px; }
+  .panel h2 { font-size:14.5px; margin-bottom:2px; }
+  .panel .desc { font-size:12px; color:#5b6b85; margin-bottom:12px; }
+  .chartbox { position:relative; height:330px; }
+  .insight { background:#eef4ff; border-left:3px solid #2563eb; padding:10px 12px; font-size:12.5px; margin-top:10px; color:#1e3a6e; border-radius:0 6px 6px 0; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  @media (max-width:900px){ .grid2 { grid-template-columns:1fr; } }
+  .cmtable { width:100%; border-collapse:collapse; font-size:13px; margin-top:6px; }
+  .cmtable th, .cmtable td { border:1px solid #e3e8f0; padding:8px 10px; text-align:center; }
+  .cmtable .lbl { background:#f0f3f8; font-weight:700; }
+  .tp { background:#dcfce7; } .fp { background:#fee2e2; } .fn { background:#fef3c7; } .tn { background:#f8fafc; }
+</style>
+</head>
+<body>
+<h1>Credit Card Fraud Detection — Rule Engine Performance</h1>
+<div class="sub">30,000 transactions · 180 confirmed frauds (0.6%) · ₹34.0L fraud exposure · Rule: amount ≥ ₹15,000 OR (international AND velocity ≥ 5) OR (velocity ≥ 8 AND amount ≥ ₹3,000)</div>
+
+<div class="cards">
+  <div class="card"><div class="l">Transactions</div><div class="v">30,000</div></div>
+  <div class="card"><div class="l">Frauds</div><div class="v">180 (0.6%)</div></div>
+  <div class="card"><div class="l">Fraud Value</div><div class="v">₹34.0L</div></div>
+  <div class="card"><div class="l">Value Captured by Rule</div><div class="v">93.5%</div></div>
+  <div class="card"><div class="l">Recall / Precision</div><div class="v">66.7% / 58.3%</div></div>
+</div>
+
+<div class="panel">
+  <h2>Fraud Rate by Hour of Day</h2>
+  <div class="desc">Card-testing pattern: fraud rate spikes at night hours vs 0.35% daytime baseline</div>
+  <div class="chartbox"><canvas id="c1"></canvas></div>
+  <div class="insight">Fraud concentrates at 00:00–04:00 (6.6–11.3% rate) — recommendation: time-aware alerting window and step-up authentication for night transactions above ₹5K.</div>
+</div>
+
+<div class="grid2">
+  <div class="panel">
+    <h2>Fraud Rate by Amount Bucket</h2>
+    <div class="desc">Fraud tilts heavily to high-value baskets</div>
+    <div class="chartbox"><canvas id="c2"></canvas></div>
+    <div class="insight">₹15K+ baskets carry 47.9–100% fraud rate; sub-₹5K baskets carry only 0.13–0.16% — amount is the single strongest rule feature.</div>
+  </div>
+  <div class="panel">
+    <h2>Fraud Rate by Merchant Category</h2>
+    <div class="desc">Highest-risk categories for merchant scoring</div>
+    <div class="chartbox"><canvas id="c3"></canvas></div>
+    <div class="insight">Electronics 1.68%, Online Services 1.20%, Jewellery 0.83% — per-category limits and merchant-risk scoring are the next control layer.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>Rule Detector — Confusion Matrix (206 flagged of 30,000)</h2>
+  <div class="desc">Rule flags only 0.7% of transactions but captures 93.5% of fraud value</div>
+  <table class="cmtable">
+    <tr><th></th><th>Rule Flags</th><th>Rule Passes</th></tr>
+    <tr><td class="lbl">Actual Fraud</td><td class="tp">TP 120</td><td class="fn">FN 60</td></tr>
+    <tr><td class="lbl">Legitimate</td><td class="fp">FP 86</td><td class="tn">TN 29,734</td></tr>
+  </table>
+  <div class="insight">Precision 58.3% / Recall 66.7%: at this threshold the rule works as a review-queue prioritiser, not an auto-block — auto-blocking would wrongly hit ~86 legitimate customers per 30K txns. Missed value (₹2.2L) sits in the stealth low-value fraud cluster — next lever is velocity-graph features, not higher thresholds.</div>
+</div>
+
+<script>
+Chart.defaults.font.family = '"Segoe UI",system-ui,sans-serif';
+const money = v => '₹' + (v>=100000 ? (v/100000).toFixed(1)+'L' : Math.round(v));
+
+fetch('agg_data.json').then(r => r.json()).then(d => {
+  const hrs = d.byHour, hours = hrs.map(x => x.h + 'h');
+  new Chart(c1, { type:'line', data:{ labels:hours, datasets:[{ label:'Fraud rate %', data:hrs.map(x=>x.fraud_rate),
+    borderColor:'#dc2626', backgroundColor:'rgba(220,38,38,.10)', fill:true, tension:.3, pointRadius:2 }]},
+    options:{ maintainAspectRatio:false, plugins:{ legend:{display:false} }, scales:{ y:{ ticks:{ callback:v=>v+'%' } } } } });
+
+  const amt = d.byAmount;
+  new Chart(c2, { type:'bar', data:{ labels:amt.map(x=>x.bucket.replace(/^[a-e] /,'')), datasets:[{ label:'Fraud rate %',
+    data:amt.map(x=>x.fraud_rate), backgroundColor:amt.map(x=>x.fraud_rate>40?'#dc2626':x.fraud_rate>0.5?'#f59e0b':'#93c5fd') }]},
+    options:{ maintainAspectRatio:false, plugins:{ legend:{display:false} }, scales:{ y:{ ticks:{ callback:v=>v+'%' } } } } });
+
+  const merch = d.byType.filter(x=>x.dim==='merchant').sort((a,b)=>b.rate-a.rate);
+  new Chart(c3, { type:'bar', data:{ labels:merch.map(x=>x.k), datasets:[{ label:'Fraud rate %',
+    data:merch.map(x=>x.rate), backgroundColor:'#2563eb' }]},
+    options:{ maintainAspectRatio:false, indexAxis:'y', plugins:{ legend:{display:false} }, scales:{ x:{ ticks:{ callback:v=>v+'%' } } } } });
+});
+</script>
+</body>
+</html>
