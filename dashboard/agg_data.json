@@ -1,0 +1,292 @@
+{
+  "n": 30000,
+  "fraudTotal": 180,
+  "fraudRate": 0.6,
+  "fraudAmt": 3404785,
+  "byHour": [
+    {
+      "h": 0,
+      "fraud_rate": 6.58,
+      "fraud_cnt": 20
+    },
+    {
+      "h": 1,
+      "fraud_rate": 11.31,
+      "fraud_cnt": 25
+    },
+    {
+      "h": 2,
+      "fraud_rate": 8.56,
+      "fraud_cnt": 19
+    },
+    {
+      "h": 3,
+      "fraud_rate": 9.45,
+      "fraud_cnt": 24
+    },
+    {
+      "h": 4,
+      "fraud_rate": 6.65,
+      "fraud_cnt": 24
+    },
+    {
+      "h": 5,
+      "fraud_rate": 0,
+      "fraud_cnt": 0
+    },
+    {
+      "h": 6,
+      "fraud_rate": 0.7,
+      "fraud_cnt": 2
+    },
+    {
+      "h": 7,
+      "fraud_rate": 0,
+      "fraud_cnt": 0
+    },
+    {
+      "h": 8,
+      "fraud_rate": 0.05,
+      "fraud_cnt": 1
+    },
+    {
+      "h": 9,
+      "fraud_rate": 0.23,
+      "fraud_cnt": 4
+    },
+    {
+      "h": 10,
+      "fraud_rate": 0.48,
+      "fraud_cnt": 9
+    },
+    {
+      "h": 11,
+      "fraud_rate": 0.33,
+      "fraud_cnt": 6
+    },
+    {
+      "h": 12,
+      "fraud_rate": 0.25,
+      "fraud_cnt": 4
+    },
+    {
+      "h": 13,
+      "fraud_rate": 0.15,
+      "fraud_cnt": 3
+    },
+    {
+      "h": 14,
+      "fraud_rate": 0.24,
+      "fraud_cnt": 4
+    },
+    {
+      "h": 15,
+      "fraud_rate": 0.1,
+      "fraud_cnt": 2
+    },
+    {
+      "h": 16,
+      "fraud_rate": 0.11,
+      "fraud_cnt": 2
+    },
+    {
+      "h": 17,
+      "fraud_rate": 0.13,
+      "fraud_cnt": 2
+    },
+    {
+      "h": 18,
+      "fraud_rate": 0.23,
+      "fraud_cnt": 4
+    },
+    {
+      "h": 19,
+      "fraud_rate": 0.19,
+      "fraud_cnt": 3
+    },
+    {
+      "h": 20,
+      "fraud_rate": 0.25,
+      "fraud_cnt": 4
+    },
+    {
+      "h": 21,
+      "fraud_rate": 0,
+      "fraud_cnt": 0
+    },
+    {
+      "h": 22,
+      "fraud_rate": 0,
+      "fraud_cnt": 0
+    },
+    {
+      "h": 23,
+      "fraud_rate": 1.1,
+      "fraud_cnt": 18
+    }
+  ],
+  "byAmount": [
+    {
+      "bucket": "a <1K",
+      "txns": 10959,
+      "frauds": 17,
+      "fraud_rate": 0.16
+    },
+    {
+      "bucket": "b 1-5K",
+      "txns": 16469,
+      "frauds": 21,
+      "fraud_rate": 0.13
+    },
+    {
+      "bucket": "c 5-15K",
+      "txns": 2366,
+      "frauds": 22,
+      "fraud_rate": 0.93
+    },
+    {
+      "bucket": "d 15-30K",
+      "txns": 165,
+      "frauds": 79,
+      "fraud_rate": 47.88
+    },
+    {
+      "bucket": "e 30K+",
+      "txns": 41,
+      "frauds": 41,
+      "fraud_rate": 100
+    }
+  ],
+  "byType": [
+    {
+      "dim": "card",
+      "k": "Amex",
+      "txns": 7344,
+      "frauds": 51,
+      "rate": 0.69
+    },
+    {
+      "dim": "card",
+      "k": "Mastercard",
+      "txns": 7557,
+      "frauds": 44,
+      "rate": 0.58
+    },
+    {
+      "dim": "card",
+      "k": "Rupay",
+      "txns": 7362,
+      "frauds": 49,
+      "rate": 0.67
+    },
+    {
+      "dim": "card",
+      "k": "Visa",
+      "txns": 7737,
+      "frauds": 36,
+      "rate": 0.47
+    },
+    {
+      "dim": "merchant",
+      "k": "Electronics",
+      "txns": 3745,
+      "frauds": 63,
+      "rate": 1.68
+    },
+    {
+      "dim": "merchant",
+      "k": "Fuel",
+      "txns": 3094,
+      "frauds": 10,
+      "rate": 0.32
+    },
+    {
+      "dim": "merchant",
+      "k": "Grocery",
+      "txns": 3899,
+      "frauds": 5,
+      "rate": 0.13
+    },
+    {
+      "dim": "merchant",
+      "k": "Jewellery",
+      "txns": 4215,
+      "frauds": 35,
+      "rate": 0.83
+    },
+    {
+      "dim": "merchant",
+      "k": "Online Services",
+      "txns": 3838,
+      "frauds": 46,
+      "rate": 1.2
+    },
+    {
+      "dim": "merchant",
+      "k": "Restaurants",
+      "txns": 3769,
+      "frauds": 4,
+      "rate": 0.11
+    },
+    {
+      "dim": "merchant",
+      "k": "Travel",
+      "txns": 3742,
+      "frauds": 9,
+      "rate": 0.24
+    },
+    {
+      "dim": "merchant",
+      "k": "Utilities",
+      "txns": 3698,
+      "frauds": 8,
+      "rate": 0.22
+    },
+    {
+      "dim": "region",
+      "k": "East",
+      "txns": 6978,
+      "frauds": 23,
+      "rate": 0.33
+    },
+    {
+      "dim": "region",
+      "k": "International",
+      "txns": 1436,
+      "frauds": 76,
+      "rate": 5.29
+    },
+    {
+      "dim": "region",
+      "k": "North",
+      "txns": 7827,
+      "frauds": 18,
+      "rate": 0.23
+    },
+    {
+      "dim": "region",
+      "k": "South",
+      "txns": 7287,
+      "frauds": 34,
+      "rate": 0.47
+    },
+    {
+      "dim": "region",
+      "k": "West",
+      "txns": 6472,
+      "frauds": 29,
+      "rate": 0.45
+    }
+  ],
+  "cm": {
+    "tp": 120,
+    "fp": 86,
+    "fn": 60,
+    "tn": 29734
+  },
+  "precision": 58.3,
+  "recall": 66.7,
+  "flagged": 206,
+  "fraudCapturedAmt": 3182173,
+  "ruleNote": "amount>=15000 OR (international AND velocity>=5) OR (velocity>=8 AND amount>=3000)"
+}
