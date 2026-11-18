@@ -1,3 +1,5 @@
+**Live Dashboard:** https://hemantkjha-data.github.io/credit-card-fraud-detection/dashboard/
+
 # 🕵️ Credit Card Fraud Detection (SQL · Rule Engine · Dashboard)
 
 **Business question:** *Which transactions are most likely fraudulent, and what detection rule maximises fraud-value capture without drowning the review team?*
